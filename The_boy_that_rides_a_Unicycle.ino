@@ -308,56 +308,30 @@ Rect spikeyRect = {
   spikey.x, spikey.y, SPIKEY_WIDTH, SPIKEY_HEIGHT
 };
 
-void spikeyMovement() {
-  if (moveRight == true && spikey.x + SPIKEY_WIDTH <= WIDTH) {
-    spikey.x += 1;
+void moveSpikey() { // it's best to name functions with verbs
+  spikey.x += moveRight ? 1 : -1; // move according to direction (using ternary operator)
+  spikey.y += moveDown ? 1 : -1;
+  
+  const int w = WIDTH - SPIKEY_WIDTH;
+  const int h = HEIGHT - SPIKEY_HEIGHT;
+  
+  if (spikey.x >= w || spikey.x < 0) // if outside bounds
+  {
+    if (rand() % 5 == 0)
+      spikey.x = (spikey.x + w) % w; // wrap around the screen
+    else
+      moveRight = !moveRight; // change direction (bounce)
   }
-  if (moveRight == false && spikey.x >= 0) {
-    spikey.x -= 1;
-  }
-  if (spikey.x == 0) {
-    if (rand() % 5 == 4) {
-      spikey.x = WIDTH - SPIKEY_WIDTH;
-      moveRight = false;
-    }
-    else {
-    moveRight = true;
-    }
-  }
-  if (spikey.x + SPIKEY_WIDTH == WIDTH) {
-    if (rand() % 5 == 4) {
-      spikey.x = 0;
-      moveRight = true;
-    }
-    else {
-    moveRight = false;
-    }
-  }
-  if (moveDown == true && spikey.y + SPIKEY_HEIGHT <= HEIGHT) {
-    spikey.y += 1;
-  }
-  if (moveDown == false && spikey.y >= 0) {
-    spikey.y -= 1;
-  }
-  if (spikey.y == 0) {
-    if (rand() % 5 == 4) {
-      spikey.y = HEIGHT - SPIKEY_HEIGHT;
-      moveDown = false;
-    }
-    else {
-    moveDown = true;
-    }
-  }
-  if (spikey.y + SPIKEY_HEIGHT == HEIGHT) {
-    if (rand() % 5 == 4) {
-      spikey.y = 0;
-      moveDown = true;
-    }
-    else {
-    moveDown = false;
-    }
+
+  if (spikey.y >= h || spikey.y < 0) // if outside bounds
+  {
+    if (rand() % 5 == 0)
+      spikey.y = (spikey.y + h) % h; // wrap around the screen
+    else
+      moveDown = !moveDown; // change direction (bounce)
   }
 }
+
 
 void drawSpikey() {
 arduboy.fillRect(spikey.x, spikey.y, 8, 8, BLACK);  
