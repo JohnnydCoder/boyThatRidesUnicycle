@@ -356,7 +356,7 @@ void titlescreen() {
 }
 
 void gameplay() {
-  spikeyMovement();
+  moveSpikey();
   drawMap();
   drawSpikey();
   drawplayer();
